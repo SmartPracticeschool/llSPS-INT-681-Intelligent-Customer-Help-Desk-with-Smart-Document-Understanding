@@ -1,0 +1,183 @@
+[
+    {
+        "id": "e334ac7b.dae3",
+        "type": "tab",
+        "label": "help desk",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "4e4c34f9.8d27c4",
+        "type": "ui_form",
+        "z": "e334ac7b.dae3",
+        "name": "",
+        "label": "",
+        "group": "71a84292.b7b88c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Need Help?",
+                "value": "Input",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "Input": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "",
+        "x": 152,
+        "y": 283,
+        "wires": [
+            [
+                "860e412b.71746"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "860e412b.71746",
+        "type": "function",
+        "z": "e334ac7b.dae3",
+        "name": "input parsing",
+        "func": "msg.payload = msg.payload.Input;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 257.5,
+        "y": 167,
+        "wires": [
+            [
+                "501e1c70.9e010c",
+                "b9d9474e.5a3278"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "b28f6bf8.6f55b",
+        "type": "debug",
+        "z": "e334ac7b.dae3",
+        "name": "234",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 518.5,
+        "y": 80,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "9c256ae7.714ab",
+        "type": "function",
+        "z": "e334ac7b.dae3",
+        "name": "output parsing",
+        "func": "msg.payload.text = \"\";\n\nif(msg.payload.context.webhook_result_1)\n{\n//    for(var i in msg.payload.context.webhook_result_1.results)\n    {\n       \n            msg.payload.text=msg.payload.text+\"<br>\"+msg.payload.context.webhook_result_1.results[0].subtitle;\n            msg.payload.text = msg.payload.text+\"<br>\"+msg.payload.context.webhook_result_1.results[0].text;\n    \n        \n    }\n    msg.payload = msg.payload.text;\n}\nelse\nmsg.payload = msg.payload.output.text[0];\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 521.5,
+        "y": 168,
+        "wires": [
+            [
+                "e6723ce0.6207c8"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "501e1c70.9e010c",
+        "type": "ui_text",
+        "z": "e334ac7b.dae3",
+        "group": "71a84292.b7b88c",
+        "order": 3,
+        "width": "5",
+        "height": "7",
+        "name": "",
+        "label": "Customer",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 356.5,
+        "y": 284,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "b9d9474e.5a3278",
+        "type": "watson-conversation-v1",
+        "z": "e334ac7b.dae3",
+        "name": "assistant",
+        "workspaceid": "3e103745-8c19-4586-ba55-8ee35f6a6684",
+        "multiuser": false,
+        "context": false,
+        "empty-payload": false,
+        "service-endpoint": "https://api.eu-gb.assistant.watson.cloud.ibm.com/instances/0f8989f7-052b-407d-83df-8630d91525fa",
+        "timeout": "",
+        "optout-learning": false,
+        "x": 384.5,
+        "y": 169,
+        "wires": [
+            [
+                "9c256ae7.714ab",
+                "b28f6bf8.6f55b"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "e6723ce0.6207c8",
+        "type": "ui_text",
+        "z": "e334ac7b.dae3",
+        "group": "96a0e72c.7e22",
+        "order": 2,
+        "width": "11",
+        "height": "9",
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 642,
+        "y": 169,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "71a84292.b7b88c",
+        "type": "ui_group",
+        "z": "",
+        "name": "Customer",
+        "tab": "bb5a566.03a76a8",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false
+    },
+    {
+        "id": "96a0e72c.7e22",
+        "type": "ui_group",
+        "z": "",
+        "name": "Bot",
+        "tab": "bb5a566.03a76a8",
+        "order": 2,
+        "disp": true,
+        "width": 11,
+        "collapse": false
+    },
+    {
+        "id": "bb5a566.03a76a8",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Intelligent Customer Help Desk with Smart Document Understanding",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
